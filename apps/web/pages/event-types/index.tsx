@@ -737,7 +737,9 @@ const EventTypeListHeading = ({
           </span>
         )}
         {profile?.slug && (
-          <Link href={`${CAL_URL}/${profile.slug}`} className="text-subtle block text-xs">
+          <Link
+            href={`${orgBranding ? orgBranding.fullDomain : CAL_URL}/${profile.slug}`}
+            className="text-subtle block text-xs">
             {`${bookerUrl.replace("https://", "").replace("http://", "")}/${profile.slug}`}
           </Link>
         )}
@@ -923,11 +925,14 @@ const EventTypesPage = () => {
     if (searchParams?.get("openIntercom") === "true") {
       open();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
     setShowProfileBanner(
       !!orgBranding && !document.cookie.includes("calcom-profile-banner=1") && !user?.completedOnboarding
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [orgBranding, user]);
 
   return (
     <ShellMain
